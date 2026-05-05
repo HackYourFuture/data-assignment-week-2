@@ -1,0 +1,16 @@
+transaction_id,product_name,category,price,quantity,customer_email,date
+1,  laptop PRO ,Electronics,999.99,2,alice@example.com,2024-03-15
+2,WIRELESS MOUSE,Electronics,29.99,5,  BOB@Company.COM  ,2024-03-15
+3,  usb cable,Electronics,4.99,10,,2024-03-16
+4,  Office Chair ,Furniture,349.50,1,charlie@work.org,2024-03-16
+5,standing DESK,Furniture,599.00,1,charlie@work.org,not_a_date
+6,,Electronics,19.99,3,dave@email.com,2024-03-17
+7,  Mechanical Keyboard ,Electronics,-89.99,2,eve@startup.io,2024-03-17
+8,monitor ARM,Furniture,79.99,0,frank@corp.com,2024-03-18
+9,  WEBCAM hd ,Electronics,54.99,1,  ,2024-03-18
+10,desk lamp,Furniture,34.99,4,grace@university.edu,2024-03-19
+11,  NOISE CANCELLING headphones,Electronics,199.99,1,alice@example.com,2024-03-19
+12,cable management KIT,Furniture,15.99,6,henry@business.com,2024-03-20
+13,  ergonomic MOUSE PAD ,Furniture,24.99,3,ivan@email.com,2024-03-20
+14,laptop STAND,Furniture,45.99,2,jenny@work.org,2024-03-21
+15,  BLUETOOTH speaker,,39.99,1,karl@startup.io,2024-03-21
