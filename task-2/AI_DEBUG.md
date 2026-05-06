@@ -1,4 +1,4 @@
-# AI Debug Report — Week 2 Task 6
+# AI Debug Report — Task 2
 
 While building Task 1 (the Cleaner Pipeline), you will encounter at least one bug. (If not, introduce one intentionally — pick the most surprising thing about Python you noticed this week and break it.)
 

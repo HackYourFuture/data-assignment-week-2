@@ -55,18 +55,17 @@ if [ "$all_present" = true ]; then
     task1=10
     task1_msg="files exist but pipeline failed to run"
 
-    # Set up .env for the run (gitignored locally; just for the test).
-    if [ ! -f task-1/.env ]; then
-        cp task-1/.env.example task-1/.env
-    fi
-
     # Make sure the python-dotenv + pytest deps are available; if a
     # requirements.txt exists, install it quietly.
     if [ -f task-1/requirements.txt ]; then
         pip install -q -r task-1/requirements.txt 2>/dev/null || true
     fi
 
-    if ( cd task-1 && python3 -m src.pipeline ) >/dev/null 2>&1; then
+    # Force the canonical paths inline so the grader is deterministic
+    # regardless of the student's local .env (which may point INPUT_PATH /
+    # OUTPUT_PATH at /tmp or some other location during their own debugging).
+    # The student's .env is NOT read or modified by the grader.
+    if ( cd task-1 && env INPUT_PATH=data/messy_sales.csv OUTPUT_PATH=output/clean_sales.csv python3 -m src.pipeline ) >/dev/null 2>&1; then
         task1=20
         task1_msg="pipeline ran but output/clean_sales.csv failed structural checks"
         if python3 - <<'PY' 2>/dev/null
