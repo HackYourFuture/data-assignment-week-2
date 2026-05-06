@@ -19,8 +19,8 @@ PASSING=60
 #   0   nothing committed
 #   10  required files all present (config.py, models.py, transforms.py,
 #       pipeline.py, tests/test_transforms.py, .env.example)
-#   20  pipeline runs against messy_sales.csv without crashing (after we
-#       copy .env from .env.example for the run)
+#   20  pipeline runs against messy_sales.csv without crashing (the
+#       grader injects INPUT_PATH/OUTPUT_PATH inline; no .env touched)
 #   40  output/clean_sales.csv passes structural checks (12 rows, cleaned
 #       fields, revenue/vat correctly calculated)
 #   60  the *code* also looks engineered: models.py defines a @dataclass
@@ -58,7 +58,8 @@ if [ "$all_present" = true ]; then
     # Make sure the python-dotenv + pytest deps are available; if a
     # requirements.txt exists, install it quietly.
     if [ -f task-1/requirements.txt ]; then
-        pip install -q -r task-1/requirements.txt 2>/dev/null || true
+        pip install -q -r task-1/requirements.txt || \
+            echo "WARN: pip install failed; pipeline may fail with ModuleNotFoundError" >&2
     fi
 
     # Force the canonical paths inline so the grader is deterministic

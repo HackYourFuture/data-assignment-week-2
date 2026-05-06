@@ -6,8 +6,10 @@ Tasks (see chapter Task 3):
     - be free of I/O (no file reads, no prints)
     - be testable with hand-rolled data (see tests/test_transforms.py)
 
-Use the {**row, "key": value} spread pattern to create new dicts instead of
-mutating the originals. This is the central pattern from chapter 6.
+Each function must return a new list of new dicts, not mutate the input
+rows in place. The chapter (Functional Composition) shows the canonical
+pattern; the auto-grader checks that you used it inside the function
+bodies, not just in prose.
 """
 
 
@@ -27,7 +29,7 @@ def clean_fields(rows: list[dict]) -> list[dict]:
     - customer_email: strip + lowercase
     - category: default to "Unknown" if missing or empty
 
-    Use the {**row, ...} spread pattern. Do not mutate the input.
+    Return a new list. Do not mutate the input rows.
     """
     # TODO: implement.
     raise NotImplementedError
