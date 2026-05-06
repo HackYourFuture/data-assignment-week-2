@@ -78,7 +78,7 @@ why. The PR-time grader does the same — your local run and the CI run are iden
 
 The grader awards points incrementally so partial credit is meaningful:
 
-- **10/60** — required files exist (`config.py`, `models.py`, `transforms.py`, `pipeline.py`, `tests/test_transforms.py`).
+- **10/60** — required files exist (`config.py`, `models.py`, `transforms.py`, `pipeline.py`, `tests/test_transforms.py`, `.env.example`).
 - **20/60** — `python -m src.pipeline` runs from `task-1/` without crashing (the grader injects `INPUT_PATH` and `OUTPUT_PATH` inline; your local `.env` is not used during grading).
 - **40/60** — `output/clean_sales.csv` passes structural checks: 12 rows (15 input − 3 invalid/zero-quantity), lowercased emails, title-cased product names, "Unknown" filled in for missing categories, `revenue` and `vat` columns present and correctly calculated.
 - **60/60** — code looks engineered: `models.py` defines a `@dataclass` with `__post_init__`; `transforms.py` uses the `{**row, ...}` spread pattern (no mutation); `pytest tests/` reports all tests passing.

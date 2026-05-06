@@ -13,7 +13,9 @@ import os
 from dotenv import load_dotenv
 
 
-# TODO 1: Call load_dotenv() so the .env values land in os.environ.
+# Load .env values into os.environ before they're read by _required().
+# (Step 1 from the docstring above; already wired up so the rest of the
+# module can rely on os.environ being populated.)
 load_dotenv()
 
 
