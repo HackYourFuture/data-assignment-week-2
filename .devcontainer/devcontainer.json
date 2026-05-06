@@ -1,0 +1,13 @@
+{
+    "name": "HYF Week 2 Assignment",
+    "image": "mcr.microsoft.com/devcontainers/python:3.11",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance"
+            ]
+        }
+    },
+    "postCreateCommand": "python3 -m pip install -r task-1/requirements.txt && echo '✅ HYF Week 2 Assignment Codespace ready. Run the auto-grader locally with: bash .hyf/test.sh && cat .hyf/score.json'"
+}
