@@ -9,5 +9,5 @@
             ]
         }
     },
-    "postCreateCommand": "pip install -r task-1/requirements.txt && echo '✅ HYF Week 2 Assignment Codespace ready. Run the auto-grader locally with: bash .hyf/test.sh && cat .hyf/score.json'"
+    "postCreateCommand": "python3 -m pip install -r task-1/requirements.txt && echo '✅ HYF Week 2 Assignment Codespace ready. Run the auto-grader locally with: bash .hyf/test.sh && cat .hyf/score.json'"
 }

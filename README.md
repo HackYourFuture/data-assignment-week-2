@@ -46,7 +46,7 @@ Total: 100 · Passing: 60.
 │   │   └── test_transforms.py   # 4 pytest tests — fill in TODOs
 │   ├── output/                  # your pipeline writes clean_sales.csv here (gitignored)
 │   ├── .env.example             # copy to .env (gitignored) before running
-│   └── requirements.txt         # pip install -r requirements.txt
+│   └── requirements.txt         # python3 -m pip install -r requirements.txt
 ├── task-2/
 │   └── AI_DEBUG.md              # fill in the four sections
 ├── task-3/
@@ -63,7 +63,7 @@ Before opening a PR, run the same checks the auto-grader runs:
 
 ```bash
 cd task-1
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 cp .env.example .env
 cd ..
 bash .hyf/test.sh

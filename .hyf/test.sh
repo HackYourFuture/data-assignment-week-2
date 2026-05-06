@@ -58,7 +58,7 @@ if [ "$all_present" = true ]; then
     # Make sure the python-dotenv + pytest deps are available; if a
     # requirements.txt exists, install it quietly.
     if [ -f task-1/requirements.txt ]; then
-        pip install -q -r task-1/requirements.txt || \
+        python3 -m pip install -q -r task-1/requirements.txt || \
             echo "WARN: pip install failed; pipeline may fail with ModuleNotFoundError" >&2
     fi
 
