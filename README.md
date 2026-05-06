@@ -44,8 +44,7 @@ Total: 100 · Passing: 60.
 │   │   └── pipeline.py          # orchestrator — fill in TODOs
 │   ├── tests/
 │   │   └── test_transforms.py   # 4 pytest tests — fill in TODOs
-│   ├── output/
-│   │   └── clean_sales.csv      # your pipeline writes here
+│   ├── output/                  # your pipeline writes clean_sales.csv here (gitignored)
 │   ├── .env.example             # copy to .env (gitignored) before running
 │   └── requirements.txt         # pip install -r requirements.txt
 ├── task-2/

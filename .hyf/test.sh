@@ -66,10 +66,12 @@ if [ "$all_present" = true ]; then
     # regardless of the student's local .env (which may point INPUT_PATH /
     # OUTPUT_PATH at /tmp or some other location during their own debugging).
     # The student's .env is NOT read or modified by the grader.
-    if ( cd task-1 && env INPUT_PATH=data/messy_sales.csv OUTPUT_PATH=output/clean_sales.csv python3 -m src.pipeline ) >/dev/null 2>&1; then
+    PIPELINE_ERR=$(mktemp)
+    if ( cd task-1 && env INPUT_PATH=data/messy_sales.csv OUTPUT_PATH=output/clean_sales.csv python3 -m src.pipeline ) >/dev/null 2>"$PIPELINE_ERR"; then
         task1=20
         task1_msg="pipeline ran but output/clean_sales.csv failed structural checks"
-        if python3 - <<'PY' 2>/dev/null
+        STRUCT_ERR=$(mktemp)
+        if python3 - <<'PY' 2>"$STRUCT_ERR"
 import csv
 from pathlib import Path
 
@@ -113,6 +115,7 @@ assert any(r["category"].lower() == "unknown" for r in rows), \
     "no row has category='Unknown' (row 15's empty category should default)"
 PY
         then
+            rm -f "$STRUCT_ERR"
             task1=40
             task1_msg="output passes structural checks but code is missing required engineering patterns (see below)"
 
@@ -143,8 +146,18 @@ PY
                 [ "$tests_pass" = false ] && missing+=("pytest tests/ all green")
                 task1_msg="output passes but code missing: $(IFS=, ; echo "${missing[*]}")"
             fi
+        else
+            # Structural checks failed: surface the assertion message.
+            err=$(tail -3 "$STRUCT_ERR" | tr '\n' ' ' | sed 's/  */ /g' | sed 's/^ //;s/ $//')
+            [ -n "$err" ] && task1_msg="structural check failed: $err"
+            rm -f "$STRUCT_ERR"
         fi
+    else
+        # Pipeline crashed: surface the last few stderr lines.
+        err=$(tail -3 "$PIPELINE_ERR" | tr '\n' ' ' | sed 's/  */ /g' | sed 's/^ //;s/ $//')
+        [ -n "$err" ] && task1_msg="pipeline failed to run: $err"
     fi
+    rm -f "$PIPELINE_ERR"
 fi
 
 # --- Task 2: AI Debug Report (20 points) ---
