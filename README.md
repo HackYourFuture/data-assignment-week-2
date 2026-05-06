@@ -26,7 +26,7 @@ cohort copies.
 |---|---|---|---|
 | **Task 1** — Cleaner Pipeline | `task-1/` | 60 | A modular Python pipeline with `config.py` (env-var loading), `models.py` (`Transaction` dataclass with `__post_init__` validation), `transforms.py` (4+ pure composable functions, no mutation), `pipeline.py` (orchestrator), and `tests/test_transforms.py` (4+ pytest tests). Reads `data/messy_sales.csv`, writes `output/clean_sales.csv`. |
 | **Task 2** — AI Debug Report | `task-2/` | 20 | Document one debugging session where you used an LLM to fix a bug. Fill in the four sections of `AI_DEBUG.md`. |
-| **Task 3** — HYF Azure proof | `task-3/` | 20 | Confirm your HYF Azure tenant access still works. Screenshot proof at `task-3/azure_proof.png` (resource group + region + €0 cost). |
+| **Task 3** — HYF Azure proof | `task-3/` | 20 | Confirm your HYF Azure tenant access still works. Screenshot proof at `task-3/azure_proof.png` (or `.jpg` / `.jpeg`) showing resource group + region + €0 cost. |
 
 Total: 100 · Passing: 60.
 
