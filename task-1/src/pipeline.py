@@ -50,11 +50,10 @@ def run() -> None:
 
     # Materialise as Transaction instances so the dataclass __post_init__
     # acts as a final guard before serialisation.
-    transactions = [Transaction(**row) for row in (
-        # cast price / quantity / revenue / vat to the right types here
-        # if your transforms left them as strings.
-        ...
-    )]
+    # TODO: cast price / quantity / revenue / vat to the right types here
+    # if your transforms left them as strings, then iterate over `data`
+    # to build Transaction(**row) for each cleaned row.
+    transactions = [Transaction(**row) for row in data]
 
     # Output dir must exist. Use pathlib for cross-platform safety.
     Path(OUTPUT_PATH).parent.mkdir(parents=True, exist_ok=True)

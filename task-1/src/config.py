@@ -26,6 +26,8 @@ def _required(name: str) -> str:
 
 # TODO 3: Replace the placeholder lines below by calling _required(...) for
 # each variable. INPUT_PATH and OUTPUT_PATH must be importable from this
-# module by the rest of the pipeline (`from config import INPUT_PATH, ...`).
+# module by the rest of the pipeline as a relative import
+# (`from .config import INPUT_PATH, ...`), since the pipeline runs as
+# `python -m src.pipeline`.
 INPUT_PATH: str = ""   # TODO: _required("INPUT_PATH")
 OUTPUT_PATH: str = ""  # TODO: _required("OUTPUT_PATH")

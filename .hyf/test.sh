@@ -98,8 +98,9 @@ for row in rows:
     cat = row["category"]
     assert cat, f"category empty (should default to 'Unknown') in row {row['transaction_id']}"
 
-# Spot-check the math: row id=1 was 999.99 * 2 = 1999.98 revenue, 419.9958 vat
-# (rounded to 419.996 -> serialised as a string by csv).
+# Spot-check the math: row id=1 was 999.99 * 2 = 1999.98 revenue, then
+# * 0.21 = 419.9958 vat (rounded to 420.00 at 2 decimals; the 0.01
+# tolerance below absorbs either rounding precision the student picks).
 row_1 = next(r for r in rows if r["transaction_id"] == "1")
 revenue_1 = float(row_1["revenue"])
 vat_1 = float(row_1["vat"])
