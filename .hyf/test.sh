@@ -182,13 +182,27 @@ if [ -s task-2/AI_DEBUG.md ]; then
     fi
 fi
 
-# --- Task 3: HYF Azure Proof (20 points) ---
+# --- Task 3: Azure Blob Storage Upload (20 points) ---
+# Screenshot is required (10 pts); blob_url.txt with a valid Azure Storage
+# URL earns the remaining 10 pts. Both checks live inside the screenshot
+# branch — no screenshot means 0/20 regardless of blob_url.txt.
 task3=0
-task3_msg="missing task-3/azure_proof.png|jpg|jpeg"
+task3_msg="missing task-3/assets/azure_blob_week2.png (or .jpg/.jpeg)"
 for ext in png jpg jpeg; do
-    if [ -s "task-3/azure_proof.$ext" ]; then
-        task3=20
-        task3_msg="azure_proof.$ext present"
+    if [ -s "task-3/assets/azure_blob_week2.$ext" ]; then
+        task3=10
+        if [ -s "task-3/assets/blob_url.txt" ]; then
+            # Require at least <container>/<blob> after the host so a bare
+            # storage-account root URL doesn't satisfy the check.
+            if grep -qE "https://[a-z0-9]+\.blob\.core\.windows\.net/[^/]+/[^/]+" task-3/assets/blob_url.txt; then
+                task3=20
+                task3_msg="screenshot and blob URL both present"
+            else
+                task3_msg="blob_url.txt present but URL format is wrong — expected https://<account>.blob.core.windows.net/<container>/<blob>"
+            fi
+        else
+            task3_msg="screenshot present but task-3/assets/blob_url.txt is missing"
+        fi
         break
     fi
 done
@@ -206,6 +220,6 @@ EOF
 
 echo "Task 1 (Cleaner Pipeline): $task1/60 — $task1_msg"
 echo "Task 2 (AI Debug Report):  $task2/20 — $task2_msg"
-echo "Task 3 (Azure Proof):       $task3/20 — $task3_msg"
+echo "Task 3 (Azure Blob Upload): $task3/20 — $task3_msg"
 echo "----------------------------------------"
 echo "Total: $score/100 — pass=$pass (passing threshold: $PASSING)"
