@@ -183,8 +183,9 @@ if [ -s task-2/AI_DEBUG.md ]; then
 fi
 
 # --- Task 3: Azure Blob Storage Upload (20 points) ---
-# 10 points for the screenshot, +10 for a blob_url.txt containing a real
-# Azure Storage URL (https://<account>.blob.core.windows.net/...)
+# Screenshot is required (10 pts); blob_url.txt with a valid Azure Storage
+# URL earns the remaining 10 pts. Both checks live inside the screenshot
+# branch — no screenshot means 0/20 regardless of blob_url.txt.
 task3=0
 task3_msg="missing task-3/assets/azure_blob_week2.png (or .jpg/.jpeg)"
 for ext in png jpg jpeg; do
@@ -213,6 +214,6 @@ EOF
 
 echo "Task 1 (Cleaner Pipeline): $task1/60 — $task1_msg"
 echo "Task 2 (AI Debug Report):  $task2/20 — $task2_msg"
-echo "Task 3 (Azure Proof):       $task3/20 — $task3_msg"
+echo "Task 3 (Azure Blob Upload): $task3/20 — $task3_msg"
 echo "----------------------------------------"
 echo "Total: $score/100 — pass=$pass (passing threshold: $PASSING)"
