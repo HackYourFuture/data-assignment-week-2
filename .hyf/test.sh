@@ -191,11 +191,17 @@ task3_msg="missing task-3/assets/azure_blob_week2.png (or .jpg/.jpeg)"
 for ext in png jpg jpeg; do
     if [ -s "task-3/assets/azure_blob_week2.$ext" ]; then
         task3=10
-        task3_msg="screenshot present but missing task-3/assets/blob_url.txt with a valid Azure Storage URL"
-        if [ -s "task-3/assets/blob_url.txt" ] && \
-           grep -qE "https://[a-z0-9]+\.blob\.core\.windows\.net/" task-3/assets/blob_url.txt; then
-            task3=20
-            task3_msg="screenshot and blob URL both present"
+        if [ -s "task-3/assets/blob_url.txt" ]; then
+            # Require at least <container>/<blob> after the host so a bare
+            # storage-account root URL doesn't satisfy the check.
+            if grep -qE "https://[a-z0-9]+\.blob\.core\.windows\.net/[^/]+/[^/]+" task-3/assets/blob_url.txt; then
+                task3=20
+                task3_msg="screenshot and blob URL both present"
+            else
+                task3_msg="blob_url.txt present but URL format is wrong — expected https://<account>.blob.core.windows.net/<container>/<blob>"
+            fi
+        else
+            task3_msg="screenshot present but task-3/assets/blob_url.txt is missing"
         fi
         break
     fi
