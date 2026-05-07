@@ -182,13 +182,20 @@ if [ -s task-2/AI_DEBUG.md ]; then
     fi
 fi
 
-# --- Task 3: HYF Azure Proof (20 points) ---
+# --- Task 3: Azure Blob Storage Upload (20 points) ---
+# 10 points for the screenshot, +10 for a blob_url.txt containing a real
+# Azure Storage URL (https://<account>.blob.core.windows.net/...)
 task3=0
-task3_msg="missing task-3/azure_proof.png|jpg|jpeg"
+task3_msg="missing task-3/assets/azure_blob_week2.png (or .jpg/.jpeg)"
 for ext in png jpg jpeg; do
-    if [ -s "task-3/azure_proof.$ext" ]; then
-        task3=20
-        task3_msg="azure_proof.$ext present"
+    if [ -s "task-3/assets/azure_blob_week2.$ext" ]; then
+        task3=10
+        task3_msg="screenshot present but missing task-3/assets/blob_url.txt with a valid Azure Storage URL"
+        if [ -s "task-3/assets/blob_url.txt" ] && \
+           grep -qE "https://[a-z0-9]+\.blob\.core\.windows\.net/" task-3/assets/blob_url.txt; then
+            task3=20
+            task3_msg="screenshot and blob URL both present"
+        fi
         break
     fi
 done
