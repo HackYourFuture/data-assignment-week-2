@@ -1,13 +1,25 @@
 {
-    "name": "HYF Week 2 Assignment",
-    "image": "mcr.microsoft.com/devcontainers/python:3.11",
-    "customizations": {
-        "vscode": {
-            "extensions": [
-                "ms-python.python",
-                "ms-python.vscode-pylance"
-            ]
+  "name": "Week 2 Assignment",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "features": {
+    "ghcr.io/devcontainers/features/azure-cli:1": {}
+  },
+  "postCreateCommand": "python3 -m pip install -r task-1/requirements.txt",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.debugpy",
+        "charliermarsh.ruff"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "[python]": {
+          "editor.defaultFormatter": "charliermarsh.ruff",
+          "editor.formatOnSave": true
         }
-    },
-    "postCreateCommand": "python3 -m pip install -r task-1/requirements.txt && echo '✅ HYF Week 2 Assignment Codespace ready. Run the auto-grader locally with: bash .hyf/test.sh && cat .hyf/score.json'"
+      }
+    }
+  }
 }

@@ -26,7 +26,7 @@ cohort copies.
 |---|---|---|---|
 | **Task 1** — Cleaner Pipeline | `task-1/` | 60 | A modular Python pipeline with `config.py` (env-var loading), `models.py` (`Transaction` dataclass with `__post_init__` validation), `transforms.py` (4+ pure composable functions, no mutation), `pipeline.py` (orchestrator), and `tests/test_transforms.py` (4+ pytest tests). Reads `data/messy_sales.csv`, writes `output/clean_sales.csv`. |
 | **Task 2** — AI Debug Report | `task-2/` | 20 | Document one debugging session where you used an LLM to fix a bug. Fill in the four sections of `AI_DEBUG.md`. |
-| **Task 3** — Azure Blob Upload | `task-3/` | 20 | Upload `task-1/output/clean_sales.csv` to a private Blob container in the HYF Azure storage account using the portal's Storage Browser. Save your screenshot as `task-3/assets/azure_blob_week2.png` (`.jpg`/`.jpeg` also accepted) and the blob URL in `task-3/assets/blob_url.txt`. |
+| **Task 3** — Azure Blob Upload | `task-3/` | 20 | Upload `task-1/output/clean_sales.csv` to a private Blob container in the HYF Azure storage account using the portal's Storage Browser. Save your screenshot as `task-3/assets/azure_blob_week2.png` (`.jpg`/`.jpeg` also accepted) and the blob URL in `task-3/assets/blob_url.txt`. Working in Codespaces? See [AZURE_LOGIN.md](AZURE_LOGIN.md) to authenticate first. |
 
 Total: 100 · Passing: 60.
 
