@@ -11,6 +11,9 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 cd "$REPO_ROOT"
 
+# shellcheck source=.hyf/grader_lib.sh
+source "$SCRIPT_DIR/grader_lib.sh"
+
 PASSING=60
 
 # --- Task 1: Cleaner Pipeline (60 points) ---
@@ -186,40 +189,87 @@ fi
 # Screenshot is required (10 pts); blob_url.txt with a valid Azure Storage
 # URL earns the remaining 10 pts. Both checks live inside the screenshot
 # branch — no screenshot means 0/20 regardless of blob_url.txt.
+# Full credit for .png (the required format). Partial credit + warning for
+# .jpg/.jpeg (wrong extension — matches c55 review pattern).
 task3=0
 task3_msg="missing task-3/assets/azure_blob_week2.png (or .jpg/.jpeg)"
+screenshot_found=false
 for ext in png jpg jpeg; do
     if [ -s "task-3/assets/azure_blob_week2.$ext" ]; then
-        task3=10
+        screenshot_found=true
+        if [ "$ext" != "png" ]; then
+            warn "Task 3: screenshot is .$ext but the assignment requires .png — rename to azure_blob_week2.png"
+            task3=7  # partial credit for wrong format
+            task3_msg="azure_blob_week2.$ext present but wrong format — rename to .png"
+        else
+            task3=10
+            task3_msg="azure_blob_week2.png present"
+        fi
         if [ -s "task-3/assets/blob_url.txt" ]; then
             # Require at least <container>/<blob> after the host so a bare
             # storage-account root URL doesn't satisfy the check.
             if grep -qE "https://[a-z0-9]+\.blob\.core\.windows\.net/[^/]+/[^/]+" task-3/assets/blob_url.txt; then
-                task3=20
-                task3_msg="screenshot and blob URL both present"
+                task3=$((task3 + 10))
+                task3_msg="${task3_msg}; blob_url.txt valid"
             else
-                task3_msg="blob_url.txt present but URL format is wrong — expected https://<account>.blob.core.windows.net/<container>/<blob>"
+                task3_msg="${task3_msg}; blob_url.txt present but URL format is wrong — expected https://<account>.blob.core.windows.net/<container>/<blob>"
             fi
         else
-            task3_msg="screenshot present but task-3/assets/blob_url.txt is missing"
+            task3_msg="${task3_msg}; task-3/assets/blob_url.txt is missing"
         fi
         break
     fi
 done
 
 score=$((task1 + task2 + task3))
-if [ "$score" -ge "$PASSING" ]; then pass=true; else pass=false; fi
 
-cat > "$SCRIPT_DIR/score.json" <<EOF
-{
-  "score": $score,
-  "pass": $pass,
-  "passingScore": $PASSING
-}
-EOF
+# ── Code hygiene warnings (0 pts — informational only) ──────────────────────
+# These checks mirror recurring review comments from cohort c55. They do not
+# affect the score but surface issues the teacher would otherwise flag manually.
+echo ""
+echo "--- Code Hygiene (warnings only, do not affect score) ---"
 
-echo "Task 1 (Cleaner Pipeline): $task1/60 — $task1_msg"
-echo "Task 2 (AI Debug Report):  $task2/20 — $task2_msg"
+# print() should be replaced with logging.* — chapter mandates logging.
+check_no_print_statements "task-1/src" "task-1/src"
+
+# NotImplementedError stubs left in after implementation.
+# Reviewer comment: "please remove the NotImplementedError from your helpers
+# since you've already added the functionality".
+check_no_notimplemented "task-1/src" "task-1/src"
+
+# Silent 0-assignment in except blocks corrupts data silently.
+# Reviewer comment: "sets price/revenue/vat to 0 instead of skipping the row,
+# a bad price would silently corrupt the output rather than being dropped".
+check_silent_zero_in_except "task-1/src/transforms.py"
+
+# Exception variable not included in log message loses error context.
+# Reviewer comment: "I would log the error type for easier debug!"
+check_exception_logged "task-1/src"
+
+# Unused imports and missing blank lines — caught by ruff F401/E302.
+# Reviewer comments: "This import isn't used anywhere" and
+# "need to add new line after the end of each function".
+check_ruff "task-1/src" "F401,E302,E303"
+
+# AI_DEBUG.md should include the full traceback.
+# Reviewer comment: "Would be good if the full traceback error was pasted here".
+if [ -s task-2/AI_DEBUG.md ]; then
+    if ! grep -q "Traceback" task-2/AI_DEBUG.md; then
+        warn "AI_DEBUG.md: no 'Traceback' found — paste the full error traceback in the '## The Error' section"
+    fi
+fi
+
+# .gitignore should exclude Python cache files.
+check_gitignore_python ".gitignore"
+
+print_results "Week 2 Autograder"
+
+# ── Final score ──────────────────────────────────────────────────────────────
+write_score "$score" "$PASSING" "$SCRIPT_DIR/score.json"
+
+echo ""
+echo "Task 1 (Cleaner Pipeline):  $task1/60 — $task1_msg"
+echo "Task 2 (AI Debug Report):   $task2/20 — $task2_msg"
 echo "Task 3 (Azure Blob Upload): $task3/20 — $task3_msg"
 echo "----------------------------------------"
-echo "Total: $score/100 — pass=$pass (passing threshold: $PASSING)"
+echo "Total: $score/100 — (passing threshold: $PASSING)"
